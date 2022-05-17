@@ -1,12 +1,12 @@
 
 apiVersion: apps/v1
-kind: Deployment # Set up the deployement kind
+kind: Deployment 
 metadata:
-  name: product-service-deployment1 # Name for the deployement
+  name: product-service-deployment1 
   labels:
     app: product-service
 spec:
-  replicas: 1 # Number of clones that we want
+  replicas: 1 
   selector:
     matchLabels:
       app: product-service
