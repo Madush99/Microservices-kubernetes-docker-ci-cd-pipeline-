@@ -17,18 +17,18 @@ spec:
     spec:
       containers:
         - name: product-service
-          image: productrepo.azurecr.io/productservice:v1 # Container name that we pushed to ACR
+          image: productrepo.azurecr.io/productservice:v1 
           ports:
-            - containerPort: 3000 # Container port number
---- # We can seperate file in YAML using --- dashes instead of writing them on seperate files
+            - containerPort: 3000 
+--- 
 apiVersion: v1
-kind: Service # Set up the service kind
+kind: Service 
 metadata:
   name: product-service-loadbalancer-service
   labels:
     app: product-service
 spec:
-  type: LoadBalancer # Here we use load balancer service.
+  type: LoadBalancer 
   selector:
     app: product-service
   ports:
@@ -37,13 +37,13 @@ spec:
 ---
 
 apiVersion: apps/v1
-kind: Deployment # Set up the deployement kind
+kind: Deployment
 metadata:
-  name: delivery-service-deployment1 # Name for the deployement
+  name: delivery-service-deployment1 
   labels:
     app: delivery-service
 spec:
-  replicas: 1 # Number of clones that we want
+  replicas: 1 
   selector:
     matchLabels:
       app: delivery-service
@@ -54,18 +54,18 @@ spec:
     spec:
       containers:
         - name: delivery-service
-          image: productrepo.azurecr.io/deliveryservice:v1  # Container name that we pushed to ACR
+          image: productrepo.azurecr.io/deliveryservice:v1  
           ports:
-            - containerPort: 6500 # Container port number
---- # We can seperate file in YAML using --- dashes instead of writing them on seperate files
+            - containerPort: 6500 
+--- 
 apiVersion: v1
-kind: Service # Set up the service kind
+kind: Service
 metadata:
   name: delivery-service-loadbalancer-service
   labels:
     app: delivery-service
 spec:
-  type: LoadBalancer # Here we use load balancer service.
+  type: LoadBalancer 
   selector:
     app: delivery-service
   ports:
@@ -74,13 +74,13 @@ spec:
 ---
 
 apiVersion: apps/v1
-kind: Deployment # Set up the deployement kind
+kind: Deployment 
 metadata:
-  name: order-service-deployment1 # Name for the deployement
+  name: order-service-deployment1 
   labels:
     app: order-service
 spec:
-  replicas: 1 # Number of clones that we want
+  replicas: 1 
   selector:
     matchLabels:
       app: order-service
@@ -91,18 +91,18 @@ spec:
     spec:
       containers:
         - name: order-service
-          image: productrepo.azurecr.io/orderservice:v1  # Container name that we pushed to ACR
+          image: productrepo.azurecr.io/orderservice:v1 
           ports:
-            - containerPort: 6501 # Container port number
---- # We can seperate file in YAML using --- dashes instead of writing them on seperate files
+            - containerPort: 6501
+--- 
 apiVersion: v1
-kind: Service # Set up the service kind
+kind: Service 
 metadata:
   name: order-service-loadbalancer-service
   labels:
     app: order-service
 spec:
-  type: LoadBalancer # Here we use load balancer service.
+  type: LoadBalancer
   selector:
     app: order-service
   ports:
@@ -111,13 +111,13 @@ spec:
 ---
 
 apiVersion: apps/v1
-kind: Deployment # Set up the deployement kind
+kind: Deployment 
 metadata:
-  name: customer-service-deployment1 # Name for the deployement
+  name: customer-service-deployment1 
   labels:
     app: customer-service
 spec:
-  replicas: 1 # Number of clones that we want
+  replicas: 1 
   selector:
     matchLabels:
       app: customer-service
@@ -128,18 +128,18 @@ spec:
     spec:
       containers:
         - name: customer-service
-          image: productrepo.azurecr.io/customerservice:v1   # Container name that we pushed to ACR
+          image: productrepo.azurecr.io/customerservice:v1   
           ports:
-            - containerPort: 5500 # Container port number
---- # We can seperate file in YAML using --- dashes instead of writing them on seperate files
+            - containerPort: 5500 
+--- 
 apiVersion: v1
-kind: Service # Set up the service kind
+kind: Service 
 metadata:
   name: customer-service-loadbalancer-service
   labels:
     app: customer-service
 spec:
-  type: LoadBalancer # Here we use load balancer service.
+  type: LoadBalancerg
   selector:
     app: customer-service
   ports:
