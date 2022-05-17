@@ -1,0 +1,77 @@
+name: Build pipeline
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  product-service:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Docker login
+      run: | 
+        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+    - name: Build order service docker image
+      run: |
+        cd ./productservice
+        docker build . --file ./Dockerfile --tag productrepo.azurecr.io/customerservice:v1
+    - name: Push order service docker image
+      run: docker push productrepo.azurecr.io/customerservice:v1
+  
+  order-service:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Docker login
+      run: |
+        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+    - name: Build email service docker image
+      run: |
+        cd /oderservice
+        docker build . --file Dockerfile --tag productrepo.azurecr.io/orderservice:v1
+    - name: Push email service docker image
+      run: docker push productrepo.azurecr.io/orderservice:v1
+
+  delivery-service:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Docker login
+      run: | 
+        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+    - name: Build user service docker image
+      run: |
+        cd /DeliveryService
+        docker build . --file Dockerfile --tag productrepo.azurecr.io/deliveryservice:v1
+    - name: Push user service docker image
+      run: docker push productrepo.azurecr.io/deliveryservice:v1
+  
+  customer-service:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Docker login
+      run: | 
+        docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+    - name: Build auth service docker image
+      run: |
+        cd /CustomerService
+        docker build . --file Dockerfile --tag productrepo.azurecr.io/customerservice:v1
+    - name: Push auth service docker image
+      run: docker push productrepo.azurecr.io/customerservice:v1
+  
+  deploy:
+    needs: [product-service, order-service, delivery-service, customer-service]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Configure Kubernetes Credentials
+      uses: Azure/aks-set-context@v1
+      with:
+        creds: '${{ secrets.AZURE_CREDENTIALS }}'
+        cluster-name: productcluster
+        resource-group: productgroup
+    - name: ⬆️ Deploy to K8s
+      run: kubectl apply -f ./k8s

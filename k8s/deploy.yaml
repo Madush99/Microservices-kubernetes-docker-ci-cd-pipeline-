@@ -1,0 +1,147 @@
+
+apiVersion: apps/v1
+kind: Deployment # Set up the deployement kind
+metadata:
+  name: product-service-deployment1 # Name for the deployement
+  labels:
+    app: product-service
+spec:
+  replicas: 1 # Number of clones that we want
+  selector:
+    matchLabels:
+      app: product-service
+  template:
+    metadata:
+      labels:
+        app: product-service
+    spec:
+      containers:
+        - name: product-service
+          image: productrepo.azurecr.io/productservice:v1 # Container name that we pushed to ACR
+          ports:
+            - containerPort: 3000 # Container port number
+--- # We can seperate file in YAML using --- dashes instead of writing them on seperate files
+apiVersion: v1
+kind: Service # Set up the service kind
+metadata:
+  name: product-service-loadbalancer-service
+  labels:
+    app: product-service
+spec:
+  type: LoadBalancer # Here we use load balancer service.
+  selector:
+    app: product-service
+  ports:
+    - port: 5000
+      targetPort: 3000
+---
+
+apiVersion: apps/v1
+kind: Deployment # Set up the deployement kind
+metadata:
+  name: delivery-service-deployment1 # Name for the deployement
+  labels:
+    app: delivery-service
+spec:
+  replicas: 1 # Number of clones that we want
+  selector:
+    matchLabels:
+      app: delivery-service
+  template:
+    metadata:
+      labels:
+        app: delivery-service
+    spec:
+      containers:
+        - name: delivery-service
+          image: productrepo.azurecr.io/deliveryservice:v1  # Container name that we pushed to ACR
+          ports:
+            - containerPort: 6500 # Container port number
+--- # We can seperate file in YAML using --- dashes instead of writing them on seperate files
+apiVersion: v1
+kind: Service # Set up the service kind
+metadata:
+  name: delivery-service-loadbalancer-service
+  labels:
+    app: delivery-service
+spec:
+  type: LoadBalancer # Here we use load balancer service.
+  selector:
+    app: delivery-service
+  ports:
+    - port: 5001
+      targetPort: 6500
+---
+
+apiVersion: apps/v1
+kind: Deployment # Set up the deployement kind
+metadata:
+  name: order-service-deployment1 # Name for the deployement
+  labels:
+    app: order-service
+spec:
+  replicas: 1 # Number of clones that we want
+  selector:
+    matchLabels:
+      app: order-service
+  template:
+    metadata:
+      labels:
+        app: order-service
+    spec:
+      containers:
+        - name: order-service
+          image: productrepo.azurecr.io/orderservice:v1  # Container name that we pushed to ACR
+          ports:
+            - containerPort: 6501 # Container port number
+--- # We can seperate file in YAML using --- dashes instead of writing them on seperate files
+apiVersion: v1
+kind: Service # Set up the service kind
+metadata:
+  name: order-service-loadbalancer-service
+  labels:
+    app: order-service
+spec:
+  type: LoadBalancer # Here we use load balancer service.
+  selector:
+    app: order-service
+  ports:
+    - port: 5002
+      targetPort: 6501
+---
+
+apiVersion: apps/v1
+kind: Deployment # Set up the deployement kind
+metadata:
+  name: customer-service-deployment1 # Name for the deployement
+  labels:
+    app: customer-service
+spec:
+  replicas: 1 # Number of clones that we want
+  selector:
+    matchLabels:
+      app: customer-service
+  template:
+    metadata:
+      labels:
+        app: customer-service
+    spec:
+      containers:
+        - name: customer-service
+          image: productrepo.azurecr.io/customerservice:v1   # Container name that we pushed to ACR
+          ports:
+            - containerPort: 5500 # Container port number
+--- # We can seperate file in YAML using --- dashes instead of writing them on seperate files
+apiVersion: v1
+kind: Service # Set up the service kind
+metadata:
+  name: customer-service-loadbalancer-service
+  labels:
+    app: customer-service
+spec:
+  type: LoadBalancer # Here we use load balancer service.
+  selector:
+    app: customer-service
+  ports:
+    - port: 5003
+      targetPort: 5500
