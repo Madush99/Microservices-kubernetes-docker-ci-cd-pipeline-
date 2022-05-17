@@ -16,7 +16,7 @@ jobs:
     - name: Build order service docker image
       run: |
         cd ./ProductService
-        docker build . --file ./Dockerfile --tag productrepo.azurecr.io/customerservice:v1
+        docker build . --file ./Dockerfile --tag productrepo.azurecr.io/productservice:v1
     - name: Push order service docker image
       run: docker push productrepo.azurecr.io/customerservice:v1
   
