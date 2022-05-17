@@ -18,7 +18,7 @@ jobs:
         cd ./ProductService
         docker build . --file ./Dockerfile --tag productrepo.azurecr.io/productservice:v1
     - name: Push order service docker image
-      run: docker push productrepo.azurecr.io/customerservice:v1
+      run: docker push productrepo.azurecr.io/productservice:v1
   
   order-service:
     runs-on: ubuntu-latest
