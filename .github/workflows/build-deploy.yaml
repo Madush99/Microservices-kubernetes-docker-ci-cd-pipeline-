@@ -15,7 +15,7 @@ jobs:
         docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
     - name: Build order service docker image
       run: |
-        cd ./productservice
+        cd ./ProductService
         docker build . --file ./Dockerfile --tag productrepo.azurecr.io/customerservice:v1
     - name: Push order service docker image
       run: docker push productrepo.azurecr.io/customerservice:v1
@@ -29,7 +29,7 @@ jobs:
         docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
     - name: Build email service docker image
       run: |
-        cd /oderservice
+        cd /OderService
         docker build . --file Dockerfile --tag productrepo.azurecr.io/orderservice:v1
     - name: Push email service docker image
       run: docker push productrepo.azurecr.io/orderservice:v1
